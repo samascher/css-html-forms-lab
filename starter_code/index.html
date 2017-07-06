@@ -2,6 +2,7 @@
 <html>
 <head>
 	<title>CSS HTML Forms Lab</title>
+	<link href="https://fonts.googleapis.com/css?family=Proza+Libre" rel="stylesheet">
 	<link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -9,11 +10,11 @@
 		<section class="formSection container">
 			<form class="form" method="GET">
 					<h1>My Dev Story</h1>
-					<div class="row formGroup">
+					<div class="row mainForm">
 					    <label for="name">Name:</label>
 					    <input id="name" name="name" >
 				    </div>
-					<div class="row formGroup">
+					<div class="row mainForm">
 				    	<label for="verb-1">Verb:</label>
 				    	<select id="verb-1" name="verb-1">
 				    		<optgroup label="Cautious">
@@ -33,12 +34,12 @@
 				    		</optgroup>
 				    	</select>
 					</div>
-					<div class="row formGroup">
-				    	<label for="mission">Misison Statement:</label>
+					<div class="row mainForm">
+				    	<label for="mission">Mission Statement:</label>
 				    	<textarea id="mission" name="mission"></textarea>
 					</div>
 
-					<div class="row formGroup">
+					<div class="row mainForm">
 						<label for="radioButtons">Sentiment:</label>
 						<div class="radioButtons">
 							<div class="radio">
@@ -56,11 +57,11 @@
 				    	</div>
 					</div>
 					
-					<div class="row formGroup">
+					<div class="row mainForm">
 				    	<label for="noun-1">Noun:</label>
 				    	<input id="noun-1" name="noun-1">
 					</div>
-					<div class="row formGroup">
+					<div class="row mainForm">
 	
 						<label for="checkboxes">Sentiment:</label>
 						<div class="checkboxes">
@@ -79,11 +80,11 @@
 				    	</div>
 
 					</div>
-					<div class="row formGroup">
+					<div class="row mainForm">
 				    	<label for="noun-2">Noun:</label>
 				    	<input id="noun-2" name="noun-2">
 					</div>
-					<div class="row formGroup">
+					<div class="row mainForm">
 				    	<input type="submit">
 				    </div>
 				    
@@ -95,43 +96,35 @@
 
 	<script src="https://code.jquery.com/jquery-3.1.1.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
 	<script type="text/javascript">
-
-		var main = $('#main');
+		var main = document.querySelector('#main');
 		function makeResults() {
-
-			$( "<section class='container results'><h1>A True Story:</h1>" ).appendTo(main);
-
-			// JS Native:
-			// var results = document.createElement('section');
-			// results.innerHTML = '<h1>' + 'A true story:' + '</h1>';
-			// results.className = 'container results';
-			// main.appendChild(results);
+			var results = document.createElement('section');
+			results.innerHTML = '<h1>' + 'A true story:' + '</h1>';
+			results.className = 'container results';
+			main.appendChild(results);
 		};
-
 		$("form").on("submit", function(event){
-
-		    // Stop the form from submitting
-
-	    	// Run the 'makeResults' function seen above
-
-	    	/*
+		    event.preventDefault(); // Stops the form from submitting!
+	    	makeResults();
+		    
+			var name = $("#name").val(); 
+			$('.results').append( document.createTextNode( "Once upon a time there was a Developer named " + name + ". " ) );
 			
-				For each value entered into a form input, add the input to the corresponding sentence, then append the text into the results section:
-
-				"Once upon a time there was a Developer named NAME."
-
-				"NAME came to General Asssembly to VERB1 the great mountain of programming knowledge."
-
-				""MISSION", NAME shouted."
-	
-				"Though SENTIMENT, NAME was able to overcome all obstacles with the power of their NOUN."
-
-				"In the end, their success can be contributed entirely to their " + ADJECTIVE2[list each one checked, comma-separated] + NOUN2."
-
-	    	*/ 
-		});
+			var verb1 = $("#verb-1").val(); 
+			$('.results').append( document.createTextNode( name +" came to General Asssembly to " + verb1 + " the great mountain of programming knowledge. " ) );
+			var missionStatement = $("#mission").val(); 
+			$('.results').append( document.createTextNode( "\"" + missionStatement + "\", " + name + " shouted. " ) );
+			var sentiment = $("input[name=sentiment]:checked").val(); 
+			var noun1 = $("#noun-1").val();
+			$('.results').append( document.createTextNode( "Though " + sentiment +  ", " + name + " was able to overcome all obstacles with the power of their " + noun1 + ". " ) );
+			var adjective2 = [];
+			$('input[name="adjective-2"]:checked').each(function() {
+			   	adjective2.push(" " + this.value);
+			});
+			var noun2 = $("#noun-2").val(); 
+			$('.results').append( document.createTextNode( "In the end, their success can be contributed entirely to their " + adjective2 + " " + noun2 + "." ) );
+    	});
 	</script>
 
 </body>
 </html>
-
